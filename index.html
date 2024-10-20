@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        // Define variables
+        function getComputerChoice() {
+            const randomNum = Math.floor(Math.random() * 3);
+            if (randomNum === 0) {
+                return "Rock";
+            } else if (randomNum === 1) {
+                return "Paper";
+            } else {
+                return "Scissors";
+            }
+        }
+
+        function getHumanChoice() {
+    let choice;
+
+    // Loop until the user inputs a valid choice
+    while (true) {
+        choice = prompt("Enter either rock, paper, or scissors.");
+        
+        // Format the choice
+        choice = choice.charAt(0).toUpperCase() + choice.slice(1).toLowerCase();
+
+        // Check if the choice is valid
+        if (choice === "Rock" || choice === "Paper" || choice === "Scissors") {
+            return choice; // Return valid choice and exit the loop
+        } else {
+            alert("Invalid input. Please input either rock, paper, or scissors");
+        }
+    }
+}
+
+        let humanScore = 0;
+        let computerScore = 0;
+
+        
+        function playRound() {
+            const human = getHumanChoice();
+            const computer = getComputerChoice();
+
+            if (human === computer) {
+                console.log(`It's a tie! You both chose ${human}.`)
+            } else if (
+                (human === "Rock" && computer === "Scissors") ||
+                (human === "Scissors" && computer === "Paper") ||
+                (human === "Paper" && computer === "Rock") 
+            ) {
+                console.log(`You win! ${human} beats ${computer}.`)
+                humanScore++;
+            } else {
+                console.log(`Computer wins! ${computer} beats ${human}.`)
+                computerScore++;
+            }
+
+        }
+
+        function playGame() {
+            while (humanScore < 5 && computerScore < 5) {
+                playRound()
+                console.log(`Current Scores - You: ${humanScore}, Computer: ${computerScore}`); 
+            }
+                // Announce the winner
+            if (humanScore === 5) {
+                console.log("Congratulations! You win the game!");
+            } else {
+                console.log("Computer wins the game!");
+            }
+
+            }
+
+        console.log(playGame());
+
+        </script>
+    
+</body>
+</html>
