@@ -6,8 +6,14 @@
     <title>Document</title>
 </head>
 <body>
+
+    <div id="game-container"></div>
+    <div id="results"></div>
+
     <script>
         // Define variables
+        const resultsDiv = document.getElementById("results"); // Add this line
+
         function getComputerChoice() {
             const randomNum = Math.floor(Math.random() * 3);
             if (randomNum === 0) {
@@ -19,64 +25,64 @@
             }
         }
 
-        function getHumanChoice() {
-    let choice;
-
-    // Loop until the user inputs a valid choice
-    while (true) {
-        choice = prompt("Enter either rock, paper, or scissors.");
-        
-        // Format the choice
-        choice = choice.charAt(0).toUpperCase() + choice.slice(1).toLowerCase();
-
-        // Check if the choice is valid
-        if (choice === "Rock" || choice === "Paper" || choice === "Scissors") {
-            return choice; // Return valid choice and exit the loop
-        } else {
-            alert("Invalid input. Please input either rock, paper, or scissors");
-        }
-    }
-}
-
         let humanScore = 0;
         let computerScore = 0;
 
         
-        function playRound() {
-            const human = getHumanChoice();
+        function playRound(playerSelection) {
+            // const human = getHumanChoice();
             const computer = getComputerChoice();
+            let resultMessage; // Line to add: Declare resultMessage variable
 
-            if (human === computer) {
-                console.log(`It's a tie! You both chose ${human}.`)
-            } else if (
-                (human === "Rock" && computer === "Scissors") ||
-                (human === "Scissors" && computer === "Paper") ||
-                (human === "Paper" && computer === "Rock") 
-            ) {
-                console.log(`You win! ${human} beats ${computer}.`)
-                humanScore++;
-            } else {
-                console.log(`Computer wins! ${computer} beats ${human}.`)
-                computerScore++;
+
+            if (playerSelection === computer) {
+        resultMessage = `It's a tie! You both chose ${playerSelection}.`; // Set resultMessage
+    } else if (
+        (playerSelection === "Rock" && computer === "Scissors") ||
+        (playerSelection === "Scissors" && computer === "Paper") ||
+        (playerSelection === "Paper" && computer === "Rock")
+    ) {
+        resultMessage = `You win! ${playerSelection} beats ${computer}.`; // Set resultMessage
+        humanScore++;
+    } else {
+        resultMessage = `Computer wins! ${computer} beats ${playerSelection}.`; // Set resultMessage
+        computerScore++;
+    }
+
+            resultsDiv.innerHTML = `
+    <p>${resultMessage}</p>
+    <p>Player Score: ${humanScore} | Computer Score: ${computerScore}</p>
+`;
+
+
+            if (humanScore === 5 || computerScore === 5) {
+                const winner = humanScore === 5 ? "You" : "Computer";
+                resultsDiv.innerHTML += `<p><strong>${winner} won the game!</strong></p>`;
+                
+                humanScore = 0;
+                computerScore = 0;
             }
+
 
         }
 
-        function playGame() {
-            while (humanScore < 5 && computerScore < 5) {
-                playRound()
-                console.log(`Current Scores - You: ${humanScore}, Computer: ${computerScore}`); 
-            }
-                // Announce the winner
-            if (humanScore === 5) {
-                console.log("Congratulations! You win the game!");
-            } else {
-                console.log("Computer wins the game!");
-            }
+        const gameContainer = document.getElementById("game-container"); // Reference the existing div
 
-            }
+        const rockButton = document.createElement("button");
+        const paperButton = document.createElement("button");
+        const scissorsButton = document.createElement("button");
 
-        console.log(playGame());
+        rockButton.textContent = "Rock";
+        paperButton.textContent = "Paper";
+        scissorsButton.textContent = "Scissors";
+
+        rockButton.addEventListener("click", () => playRound("Rock"));
+        paperButton.addEventListener("click", () => playRound("Paper"));
+        scissorsButton.addEventListener("click", () => playRound("Scissors"));
+
+        gameContainer.appendChild(rockButton);
+        gameContainer.appendChild(paperButton);
+        gameContainer.appendChild(scissorsButton);
 
         </script>
     
